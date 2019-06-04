@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<methodResponse>
+    <params>
+        <param>
+            <value>
+                <struct>
+                    <member>
+                        <name>accountValue1</name>
+                        <value>
+                            <string>${accountValue1}</string>
+                        </value>
+                    </member>
+                    <member>
+                        <name>currency1</name>
+                        <value>
+                            <string>EUR</string>
+                        </value>
+                    </member>
+                    <member>
+                        <name>languageIDCurrent</name>
+                        <value>
+                            <i4>1</i4>
+                        </value>
+                    </member>
+                    <member>
+                        <name>originTransactionID</name>
+                        <value>
+                            <string>11</string>
+                        </value>
+                    </member>
+                    <member>
+                        <name>responseCode</name>
+                        <value>
+                            <i4>${responseCode}</i4>
+                        </value>
+                    </member>
+                    <member>
+                        <name>serviceClassCurrent</name>
+                        <value>
+                            <i4>2001</i4>
+                        </value>
+                    </member>
+                </struct>
+            </value>
+        </param>
+    </params>
+</methodResponse>
