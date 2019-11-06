@@ -55,7 +55,10 @@ public class Controller {
     public String ok(@RequestParam(name="time",required=false) Long time,HttpServletRequest request) {
         try {
             request.getParameterMap().forEach((key,value)->{
-                logger.info("{}={}",key,value);
+                if(value.length==1)
+                    logger.info("{}={}",key,value[0]);
+                else
+                    logger.info("{}={}",key,value);
             });
             if(time==null){
                 time=50L;
