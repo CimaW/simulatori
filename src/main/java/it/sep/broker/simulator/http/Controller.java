@@ -51,6 +51,7 @@ public class Controller {
 
     @RequestMapping("/ok")
     public String ok(@RequestParam(name="time",required=false) Long time,HttpServletRequest request) {
+        lastParams =new HashMap<>();
         try {
             request.getParameterMap().forEach((key,value)->{
                 if(value.length==1) {
