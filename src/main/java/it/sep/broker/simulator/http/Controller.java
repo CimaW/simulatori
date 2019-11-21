@@ -14,9 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,10 +29,10 @@ public class Controller {
 
     @Autowired
     SocketTelnet socketTelnet;
-
-
     @Autowired
     Config config;
+
+    private static Map<String,String> lastParams =new HashMap<>();
 
     @RequestMapping("/help")
     public String help() {
@@ -55,10 +53,13 @@ public class Controller {
     public String ok(@RequestParam(name="time",required=false) Long time,HttpServletRequest request) {
         try {
             request.getParameterMap().forEach((key,value)->{
-                if(value.length==1)
-                    logger.info("{}={}",key,value[0]);
-                else
+                if(value.length==1) {
+                    logger.info("{}={}", key, value[0]);
+                    lastParams.put(key, value[0]);
+                }else{
+                    lastParams.put(key,Arrays.asList(value)+"");
                     logger.info("{}={}",key,value);
+                }
             });
             if(time==null){
                 time=50L;
@@ -68,6 +69,24 @@ public class Controller {
             e.printStackTrace();
         }
         return "OK";
+    }
+
+    @RequestMapping("/last")
+    public String last() {
+        String html="<html><head></head>\n"+
+                "<body>\n" +
+                "\t<table>" +
+                "\t\t<thead>" +
+                "\t\t\t<tr><th>Chiave</th><th>Valore</th></tr>"+
+                "\t\t</thead>"+
+                "\t\t</tbody>";
+        for(String key:lastParams.keySet()){
+            html+=String.format("\t\t\t<tr><td>%s</td><td>%s</td></tr>",key,lastParams.get(key));
+        }
+        html+=  "\t\t</tbody>"+
+                "\t</table>"+
+                "</body>\n";
+        return html;
     }
 
     @RequestMapping(value ="/json/*", produces = "application/json")
