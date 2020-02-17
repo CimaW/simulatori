@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,7 @@ public class Controller {
     }
 
     @RequestMapping("/ok")
-    public String ok(@RequestParam(name="time",required=false) Long time,HttpServletRequest request) {
+    public ResponseEntity<String>  ok(@RequestParam(name="time",required=false) Long time,@RequestParam(name="httpStatus",required=false,defaultValue = "200") Integer httpStatus,HttpServletRequest request) {
         lastParams =new HashMap<>();
         try {
             request.getParameterMap().forEach((key,value)->{
@@ -69,7 +71,21 @@ public class Controller {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "OK";
+
+        HttpStatus  status=HttpStatus.resolve(httpStatus);
+        if(status == null){
+            httpStatus=500;
+            status=HttpStatus.resolve(500);
+            logger.info("http status {} not found return 500",httpStatus);
+        }
+
+        String response="OK";
+        if(httpStatus>299){
+            response="KO";
+        }
+
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(response,status);
+        return responseEntity;
     }
 
     @RequestMapping("/last")
