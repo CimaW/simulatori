@@ -81,7 +81,7 @@ public class Controller {
 
         String response="OK";
         if(httpStatus>299){
-            response="KO";
+            response=httpStatus+" - KO";
         }
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>(response,status);
