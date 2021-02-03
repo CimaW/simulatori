@@ -155,7 +155,7 @@ public class Controller {
         } else{
             brand=null;
         }
-        return "{\"msisdn\":\""+msisdn+"\",\"it_crm\":\""+itCrm+"\", \"brand\":"+brand+"}";
+        return "{\"msisdn_user\":\""+msisdn+"\",\"it_crm\":\""+itCrm+"\", \"brand\":"+brand+"}";
     }
 
 
